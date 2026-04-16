@@ -1,6 +1,24 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { UserPlus, Users, AlertTriangle, Clock, ArrowRight, FileText } from 'lucide-react';
+import { UserPlus, Users, AlertTriangle, Clock, ArrowRight, FileText, Activity } from 'lucide-react';
+import { getMyPatients } from '../services/api';
+
+// Reuse interface from PatientHistory
+interface TopFeature {
+    feature: string;
+    contribution: number;
+}
+interface PredictionResult {
+    probability: number;
+    top_features: TopFeature[];
+    prediction_time?: number;
+}
+interface PatientSummary {
+    id: string;
+    latest_icu_prediction: PredictionResult | null;
+    latest_los_prediction: PredictionResult | null;
+}
 
 const DashboardDoctor = () => {
     const { user } = useAuth();
@@ -17,7 +35,27 @@ const DashboardDoctor = () => {
         ? (user.name.toLowerCase().includes('dr') ? user.name : `Dr. ${user.name.split(' ')[0]}`)
         : 'Doctor';
 
+    const [patients, setPatients] = useState<PatientSummary[]>([]);
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        const fetchPatients = async () => {
+            try {
+                const response = await getMyPatients();
+                setPatients(response.data);
+            } catch (err) {
+                console.error("Error fetching dashboard patients:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPatients();
+    }, []);
+
+    // Derived metrics
+    const totalPatients = patients.length;
+    const highRiskICU = patients.filter(p => (p.latest_icu_prediction?.probability || 0) >= 0.7).length;
+    const highRiskLOS = patients.filter(p => (p.latest_los_prediction?.probability || 0) >= 0.7).length;
 
     return (
         <div className="max-w-7xl mx-auto w-full pb-12">
@@ -39,8 +77,8 @@ const DashboardDoctor = () => {
                         <Users className="h-6 w-6 text-[#0EA5E9] group-hover:text-white transition-colors" />
                     </div>
                     <div>
-                        <div className="text-3xl font-bold text-[#0F172A]">14</div>
-                        <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Today's Patients</div>
+                        <div className="text-3xl font-bold text-[#0F172A]">{loading ? '-' : totalPatients}</div>
+                        <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Total Patients</div>
                     </div>
                 </div>
 
@@ -50,19 +88,19 @@ const DashboardDoctor = () => {
                         <AlertTriangle className="h-6 w-6 text-[#EF4444] group-hover:text-white transition-colors" />
                     </div>
                     <div>
-                        <div className="text-3xl font-bold text-[#0F172A]">2</div>
-                        <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">High Risk Alerts</div>
+                        <div className="text-3xl font-bold text-[#0F172A]">{loading ? '-' : highRiskICU}</div>
+                        <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">High Risk ICU</div>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-[14px] p-6 shadow-clinical-soft border border-[#E2E8F0] flex items-center gap-5 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(13,148,136,0.12)] group">
-                    <div className="absolute left-0 top-0 bottom-0 w-[6px] bg-[#0D9488]"></div>
-                    <div className="w-12 h-12 rounded-[12px] bg-[#F0FDFA] flex items-center justify-center shrink-0 group-hover:bg-[#0D9488] transition-colors">
-                        <Clock className="h-6 w-6 text-[#0D9488] group-hover:text-white transition-colors" />
+                <div className="bg-white rounded-[14px] p-6 shadow-clinical-soft border border-[#E2E8F0] flex items-center gap-5 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(249,115,22,0.12)] group">
+                    <div className="absolute left-0 top-0 bottom-0 w-[6px] bg-[#F97316]"></div>
+                    <div className="w-12 h-12 rounded-[12px] bg-[#FFF7ED] flex items-center justify-center shrink-0 group-hover:bg-[#F97316] transition-colors">
+                        <Activity className="h-6 w-6 text-[#F97316] group-hover:text-white transition-colors" />
                     </div>
                     <div>
-                        <div className="text-3xl font-bold text-[#0F172A]">4.2<span className="text-lg text-[#94A3B8] font-medium ml-1">days</span></div>
-                        <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">Average LOS</div>
+                        <div className="text-3xl font-bold text-[#0F172A]">{loading ? '-' : highRiskLOS}</div>
+                        <div className="text-xs font-bold text-[#64748B] uppercase tracking-wider mt-1">High Risk LOS</div>
                     </div>
                 </div>
             </div>
