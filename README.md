@@ -1,61 +1,38 @@
-# ClinSight: Perioperative Intelligence System
+# ClinSight
 
-ClinSight is an AI-driven, full-stack healthcare application designed to support clinical staff by predicting intensive care (ICU) admission risks and extended Length of Stay (LOS) probabilities for preoperative patients. By analyzing patient vitals, demographics, and lab results, it empowers doctors with data-driven insights to optimize hospital resources and improve patient care workflows.
+**Perioperative Intelligence & AI Decision Support**
 
-## 🚀 Key Features
+ClinSight is an enterprise-grade healthcare application that equips clinical staff with real-time, AI-driven predictions for Intensive Care Unit (ICU) admission risk and extended Length of Stay (LOS) probability for preoperative patients.
 
-- **Predictive Analytics:** Custom Machine Learning pipelines (Scikit-Learn) integrated natively into the backend to calculate ICU and LOS risk factors dynamically.
-- **AI Clinical Summaries:** Utilizes Google's **Gemini 2.5 Flash LLM** to digest complex mathematical predictions and automatically generate professional, concise clinical note summaries.
-- **Historical Case Matching:** A K-Nearest Neighbors similarity engine that finds past patients with similar physiological features to provide doctors with historical context.
-- **Doctor Dashboard:** Real-time metrics reflecting the specific provider's active patient roster and tracking high-risk triage alerts.
-- **Secure Authentication:** Complete JWT-based authentication system supporting distinct permission roles for Doctors vs. Administrators.
+## 🚀 Core Capabilities
 
-## 🛠️ Technology Stack
+- **Predictive ML Pipelines:** Custom Scikit-Learn pipelines evaluate patient lab results and vitals to generate dynamic physiological risk scores.
+- **Generative AI Summaries:** Integrates Google's **Gemini 2.5 Flash** to automatically translate complex mathematical probabilities into concise, professional clinical assessment notes.
+- **Historical Case Matching:** A K-Nearest Neighbors engine provides contextual decision support by cross-referencing hundreds of historical surgeries.
+- **Role-Based Security:** Secure JWT authentication enforces strict HIPAA-oriented data boundaries and permissions between Doctors and Administrators.
 
-**Frontend Architecture:**
-- React (Vite)
-- TypeScript
-- Tailwind CSS
-- React Router DOM
-- Lucide React (Icons)
-- Framer Motion (Micro-animations)
+## 🛠️ Architecture
 
-**Backend Architecture:**
-- Python 3.x
-- FastAPI
-- SQLAlchemy (ORM) & SQLite
-- Scikit-Learn / Pandas (Machine Learning & Data Processing)
-- `google-genai` (Gemini API Integration)
+- **Frontend:** React (Vite), TypeScript, Tailwind CSS, Lucide
+- **Backend:** Python, FastAPI, SQLAlchemy, SQLite
+- **AI/ML:** Scikit-Learn, Pandas, Google GenAI SDK
 
-## 📦 Project Structure
+## ⚡ Quick Start
 
-The repository is modularly split into completely decoupled frontend and backend services:
-
-- `/frontend` - The Vite React client workspace.
-- `/backend` - The Python Server, REST API architecture, and Machine Learning models.
-
-## 🚦 Getting Started Locally
-
-### 1. Start the Backend
+**1. Backend Server**
 ```bash
 cd backend
 python -m venv venv
-.\venv\Scripts\activate   # Windows
+.\venv\Scripts\activate
 pip install -r requirements.txt
-```
-*Note: You must create a `.env` file containing a valid `GEMINI_API_KEY` for the AI summaries to function.*
-
-Run the FastAPI server:
-```bash
 uvicorn app.main:app --reload
 ```
+*> Note: Requires a valid `GEMINI_API_KEY` defined in `backend/.env`.*
 
-### 2. Start the Frontend
-In a separate terminal:
+**2. Frontend Client**
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
-Navigate to `http://localhost:5173` to access the application.
+*> Access the application at `http://localhost:5173`.*
