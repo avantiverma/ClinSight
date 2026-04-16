@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+const isProd = import.meta.env.PROD;
+const LIVE_URL = 'https://clinsight-7bx7.onrender.com/api';
+const LOCAL_URL = 'http://127.0.0.1:8000/api';
+
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api', // Force IPv4 to prevent Windows localhost/IPv6 resolution errors
+    baseURL: isProd ? LIVE_URL : LOCAL_URL,
     headers: {
         'Content-Type': 'application/json',
     },
