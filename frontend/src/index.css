@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@layer utilities {
+
+  /* Chrome, Safari, Edge, Opera */
+  .no-spinner::-webkit-outer-spin-button,
+  .no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  .no-spinner {
+    -moz-appearance: textfield;
+  }
+}
+
+@theme {
+  --color-clinical-primary: #0ea5e9;
+  --color-clinical-secondary: #0d9488;
+  --color-clinical-bg: #eef2f7;
+
+  /* Risk Colors */
+  --color-clinical-high: #ef4444;
+  --color-clinical-high-bg: #fef2f2;
+  --color-clinical-medium: #f59e0b;
+  --color-clinical-medium-bg: #fffbeb;
+  --color-clinical-low: #10b981;
+  --color-clinical-low-bg: #f0fdf4;
+
+  /* Text */
+  --color-clinical-text: #0f172a;
+  --color-clinical-muted: #64748b;
+
+  --font-sans: 'Inter', 'Plus Jakarta Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* Custom shadows */
+  --shadow-clinical-soft: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+:root {
+  font-family: var(--font-sans);
+  background-color: var(--color-clinical-bg);
+  color: var(--color-clinical-text);
+  line-height: 1.5;
+  font-weight: 400;
+}
