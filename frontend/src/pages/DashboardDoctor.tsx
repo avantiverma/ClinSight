@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { UserPlus, Users, AlertTriangle, Clock, ArrowRight, FileText, Activity } from 'lucide-react';
+import { UserPlus, Users, AlertTriangle, ArrowRight, FileText, Activity } from 'lucide-react';
 import { getMyPatients } from '../services/api';
 
 // Reuse interface from PatientHistory
