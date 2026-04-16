@@ -1,6 +1,10 @@
 import { Bell } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 export default function Header() {
+    const location = useLocation();
+    const isHome = location.pathname === '/';
+    
     const today = new Date().toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
@@ -8,8 +12,12 @@ export default function Header() {
         day: 'numeric'
     });
 
+    const headerClasses = isHome 
+        ? "bg-[#FFFFFF] border-b border-[#E2E8F0] h-16 flex items-center justify-between px-8 z-40 relative shadow-none"
+        : "bg-[#FFFFFF] border-b border-[#E2E8F0] h-16 flex items-center justify-between px-8 z-40 sticky top-0 shadow-none";
+
     return (
-        <header className="bg-[#FFFFFF] border-b border-[#E2E8F0] h-16 flex items-center justify-between px-8 z-10 sticky top-0 shadow-none">
+        <header className={headerClasses}>
             <div className="text-sm font-medium text-clinical-muted flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-clinical-low animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
                 {today}
