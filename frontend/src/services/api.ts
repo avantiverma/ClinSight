@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const isProd = import.meta.env.PROD;
-const LIVE_URL = 'https://clinsight-7bx7.onrender.com/api';
+const LIVE_URL = 'https://YOUR-SERVICE-NAME.onrender.com/api'; // ← Replace with your actual Render URL after deployment
 const LOCAL_URL = 'http://127.0.0.1:8000/api';
 
 const api = axios.create({
