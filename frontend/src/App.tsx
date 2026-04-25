@@ -13,6 +13,8 @@ import PredictLOS from './pages/doctors/PredictLOS';
 import PredictionResults from './pages/doctors/PredictionResults';
 import PatientHistory from './pages/doctors/PatientHistory';
 import PatientHistoryDetail from './pages/doctors/PatientHistoryDetail';
+import Settings from './pages/Settings';
+import Alerts from './pages/Alerts';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -72,6 +74,16 @@ function App() {
               <Route path="/patients/:id/history" element={
                 <ProtectedRoute allowedRoles={['doctor']}>
                   <PatientHistoryDetail />
+                </ProtectedRoute>
+              } />
+              <Route path="/settings" element={
+                <ProtectedRoute allowedRoles={['doctor', 'admin']}>
+                  <Settings />
+                </ProtectedRoute>
+              } />
+              <Route path="/alerts" element={
+                <ProtectedRoute allowedRoles={['doctor', 'admin']}>
+                  <Alerts />
                 </ProtectedRoute>
               } />
 

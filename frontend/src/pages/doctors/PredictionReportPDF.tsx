@@ -86,14 +86,16 @@ const styles = StyleSheet.create({
     riskIndicator: {
         width: 80,
         height: 80,
-        borderRadius: 40,
-        borderWidth: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
         marginRight: 20,
+        position: 'relative',
     },
-    riskText: {
-        fontSize: 20,
+    gaugeText: {
+        position: 'absolute',
+        top: 30,
+        left: 0,
+        width: 80,
+        textAlign: 'center',
+        fontSize: 16,
         fontWeight: 'bold',
     },
     riskLabel: {
@@ -269,8 +271,33 @@ const PredictionReportPDF = ({ patient, doctorName, id, result, modelType, featu
                     <Text style={styles.sectionTitle}>Prediction Analysis</Text>
 
                     <View style={{ ...styles.riskSection, backgroundColor: riskBg }}>
-                        <View style={{ ...styles.riskIndicator, borderColor: riskColor }}>
-                            <Text style={{ ...styles.riskText, color: riskColor }}>{percentage.toFixed(1)}%</Text>
+                        <View style={styles.riskIndicator}>
+                            <Svg width="80" height="80" viewBox="0 0 80 80">
+                                {/* Gray Background Circle */}
+                                <Circle
+                                    cx="40"
+                                    cy="40"
+                                    r="36"
+                                    stroke="#E5E7EB"
+                                    strokeWidth="8"
+                                    fill="none"
+                                />
+                                {/* Dynamic Colored Path */}
+                                <Circle
+                                    cx="40"
+                                    cy="40"
+                                    r="36"
+                                    stroke={riskColor}
+                                    strokeWidth="8"
+                                    strokeDasharray={226}
+                                    strokeDashoffset={226 * (1 - probability)}
+                                    strokeLinecap="round"
+                                    fill="none"
+                                />
+                            </Svg>
+                            <Text style={{ ...styles.gaugeText, color: riskColor }}>
+                                {percentage.toFixed(1)}%
+                            </Text>
                         </View>
                         <View style={styles.riskDescription}>
                             <Text style={{ fontSize: 14, fontWeight: 'bold', color: riskColor, marginBottom: 4 }}>

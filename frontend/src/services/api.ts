@@ -80,4 +80,8 @@ export const updatePatientNotes = async (patientId: string, clinical_notes: stri
     return await api.put(`/patients/${patientId}/notes`, { clinical_notes });
 };
 
+export const getAdminDashboardData = async () => {
+    return await api.get('/admin/doctors');
+};
+
 export default api;

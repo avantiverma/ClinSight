@@ -10,8 +10,8 @@ export default function Sidebar() {
         { name: 'Dashboard', href: '/dashboard/doctor', icon: LayoutDashboard },
         { name: 'New Patient', href: '/patients/new', icon: UserPlus },
         { name: 'Patient History', href: '/patients/history', icon: ClipboardList },
-        { name: 'Alerts', href: '#', icon: Bell },
-        { name: 'Settings', href: '#', icon: Settings },
+        { name: 'Alerts', href: '/alerts', icon: Bell },
+        { name: 'Settings', href: '/settings', icon: Settings },
     ];
 
     const publicLinks = [

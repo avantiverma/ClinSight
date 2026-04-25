@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import auth, predict, patients
+from app.api import auth, predict, patients, admin
 from app.db.session import engine
 from app.db.base import Base
 
@@ -28,6 +28,7 @@ def create_application() -> FastAPI:
     application.include_router(auth.router, prefix="/api/auth", tags=["auth"])
     application.include_router(predict.router, prefix="/api/predict", tags=["predict"])
     application.include_router(patients.router, prefix="/api/patients", tags=["patients"])
+    application.include_router(admin.router, prefix="/api/admin", tags=["admin"])
 
     return application
 
