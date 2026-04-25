@@ -1,4 +1,4 @@
-import { Document, Page, Text, View, StyleSheet, Svg, Circle } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Svg, Circle, Path } from '@react-pdf/renderer';
 
 // Register a standard font if needed, otherwise use Helvetica by default
 // Font.register({ family: 'Roboto', src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf' });
@@ -272,29 +272,26 @@ const PredictionReportPDF = ({ patient, doctorName, id, result, modelType, featu
 
                     <View style={{ ...styles.riskSection, backgroundColor: riskBg }}>
                         <View style={styles.riskIndicator}>
-                            <Svg width="80" height="80" viewBox="0 0 80 80">
-                                {/* Gray Background Circle */}
-                                <Circle
-                                    cx="40"
-                                    cy="40"
-                                    r="36"
-                                    stroke="#E5E7EB"
-                                    strokeWidth="8"
-                                    fill="none"
-                                />
-                                {/* Dynamic Colored Path */}
-                                <Circle
-                                    cx="40"
-                                    cy="40"
-                                    r="36"
-                                    stroke={riskColor}
-                                    strokeWidth="8"
-                                    strokeDasharray={`${226}`}
-                                    strokeDashoffset={`${226 * (1 - probability)}`}
-                                    strokeLinecap="round"
-                                    fill="none"
-                                />
-                            </Svg>
+                            {(() => {
+                                // Arc gauge using Path — @react-pdf/renderer does not support strokeDashoffset on Circle
+                                const cx = 40, cy = 40, r = 34;
+                                const clampedP = Math.min(Math.max(probability, 0.001), 0.999);
+                                const angle = clampedP * 2 * Math.PI;
+                                const startX = cx;
+                                const startY = cy - r;
+                                const endX = cx + r * Math.sin(angle);
+                                const endY = cy - r * Math.cos(angle);
+                                const largeArc = clampedP > 0.5 ? 1 : 0;
+                                const arcPath = `M ${startX} ${startY} A ${r} ${r} 0 ${largeArc} 1 ${endX} ${endY}`;
+                                return (
+                                    <Svg width="80" height="80" viewBox="0 0 80 80">
+                                        {/* Gray track */}
+                                        <Circle cx="40" cy="40" r="34" stroke="#E5E7EB" strokeWidth="8" fill="none" />
+                                        {/* Colored arc */}
+                                        <Path d={arcPath} stroke={riskColor} strokeWidth="8" fill="none" strokeLinecap="round" />
+                                    </Svg>
+                                );
+                            })()}
                             <Text style={{ ...styles.gaugeText, color: riskColor }}>
                                 {percentage.toFixed(1)}%
                             </Text>
