@@ -118,6 +118,7 @@ class Token(BaseModel):
     token_type: str
     role: str
     name: str
+    email: str
 class AdminPatientSummary(BaseModel):
     id: str
     name: str

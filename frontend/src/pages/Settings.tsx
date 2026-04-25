@@ -31,7 +31,7 @@ const Settings = () => {
                         </div>
                         <div>
                             <label className="block text-[11px] font-bold text-[#94A3B8] uppercase tracking-widest mb-2">Email Identity</label>
-                            <p className="text-[#0F172A] font-semibold">{user?.username || 'avanti@clin-sight.ai'}</p>
+                            <p className="text-[#0F172A] font-semibold">{user?.email || 'avanti@clin-sight.ai'}</p>
                         </div>
                         <div>
                             <label className="block text-[11px] font-bold text-[#94A3B8] uppercase tracking-widest mb-2">Clinical Role</label>

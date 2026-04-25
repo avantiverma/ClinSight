@@ -53,10 +53,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         });
 
-        const { access_token, role, name } = response.data;
+        const { access_token, role, name, email: responseEmail } = response.data;
+        const finalEmail = responseEmail || email;
 
         // Update State
-        const userData = { email, role, name };
+        const userData = { email: finalEmail, role, name };
         setToken(access_token);
         setRole(role);
         setUser(userData);

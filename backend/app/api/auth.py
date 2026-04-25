@@ -74,7 +74,8 @@ def login_access_token(db: Session = Depends(get_db), form_data: OAuth2PasswordR
             ),
             "token_type": "bearer",
             "role": "admin",
-            "name": "System Administrator"
+            "name": "System Administrator",
+            "email": "admin@clin-sight.ai"
         }
     elif not doctor or not verify_password(form_data.password, doctor.hashed_password):
         raise HTTPException(
@@ -91,5 +92,6 @@ def login_access_token(db: Session = Depends(get_db), form_data: OAuth2PasswordR
         "access_token": access_token, 
         "token_type": "bearer",
         "role": doctor.role,
-        "name": doctor.name
+        "name": doctor.name,
+        "email": doctor.username
     }
