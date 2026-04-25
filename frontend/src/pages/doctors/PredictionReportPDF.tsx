@@ -289,8 +289,8 @@ const PredictionReportPDF = ({ patient, doctorName, id, result, modelType, featu
                                     r="36"
                                     stroke={riskColor}
                                     strokeWidth="8"
-                                    strokeDasharray={226}
-                                    strokeDashoffset={226 * (1 - probability)}
+                                    strokeDasharray={`${226}`}
+                                    strokeDashoffset={`${226 * (1 - probability)}`}
                                     strokeLinecap="round"
                                     fill="none"
                                 />
