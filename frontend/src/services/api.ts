@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const isProd = import.meta.env.PROD;
-const LIVE_URL = 'https://YOUR-SERVICE-NAME.onrender.com/api'; // ← Replace with your actual Render URL after deployment
+// Uses VITE_API_URL env var if set, otherwise falls back to Railway (prod) or localhost (dev)
+const LIVE_URL = import.meta.env.VITE_API_URL || 'https://clinsight.up.railway.app/api';
 const LOCAL_URL = 'http://127.0.0.1:8000/api';
 
 const api = axios.create({
-    baseURL: isProd ? LIVE_URL : LOCAL_URL,
+    baseURL: import.meta.env.PROD ? LIVE_URL : LOCAL_URL,
     headers: {
         'Content-Type': 'application/json',
     },
